@@ -1,0 +1,26 @@
+{
+  "name": "readitlater",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "keywords": [],
+  "author": "Abhishek Sonawane",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@mozilla/readability": "^0.6.0",
+    "@prisma/client": "^6.11.0",
+    "bull": "^4.16.5",
+    "dotenv": "^17.0.1",
+    "express": "^5.1.0",
+    "jsdom": "^26.1.0",
+    "puppeteer": "^24.11.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
