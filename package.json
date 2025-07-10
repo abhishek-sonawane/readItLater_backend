@@ -7,6 +7,9 @@
     "start": "node src/index.js",
     "dev": "nodemon src/index.js"
   },
+  "prisma": {
+    "schema": "src/prisma/schema.prisma"
+  },
   "keywords": [],
   "author": "Abhishek Sonawane",
   "license": "ISC",

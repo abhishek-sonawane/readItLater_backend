@@ -9,7 +9,7 @@ export const scraperProcessor = async (job, done) => {
         }
         console.log(`Scraped content for ${job.data.url}:`, data.title);
         db.push(data)
-        done(); // ✅ important!
+        done();
     } catch (err) {
         console.log(`Error processing job ${job.id}:`, err);
         done(err); // or done(new Error('...'));
