@@ -14,10 +14,79 @@ model User {
   id String @id @default(cuid())
   name String?
   email String? @unique
-  password String?
+  hashedPassword String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  contents Content[]
+  notes Note[]
+  tags Tag[]
+  folders Folder[]
 }
+
+
+model Content {
+  id String @id @default(cuid())
+  title String
+  url String
+  contentData String
+  type ContentType @default(ARTICLE)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  note Note?
+  tags ContentTag[]
+  folderId String?
+  folder Folder? @relation(fields: [folderId],references: [id]) 
+}
+
+
+model Note {
+  id String @id @default(cuid())
+  title String
+  noteContent String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId String
+  user User @relation(fields:[userId],references: [id])
+  contentId String @unique
+  content Content? @relation(fields: [contentId], references: [id])
+}
+
+model Tag {
+  id String @id @default(cuid())
+  name String
+  createdAt DateTime @default(now())
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  contents ContentTag[]
+}
+
+model ContentTag{
+  id String @id @default(cuid())
+  contentId String
+  content Content @relation(fields:[contentId], references: [id])
+  tagId String
+  tag Tag @relation(fields:[tagId], references: [id])
+}
+
+
+model Folder{
+  id String @id @default(cuid())
+  name String
+  createdAt DateTime @default(now())
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  contents Content[]
+}
+
+enum ContentType {
+  ARTICLE
+  VIDEO
+  AUDIO
+  DOCUMENT
+}
+
 
 datasource db {
   provider = "postgresql"
