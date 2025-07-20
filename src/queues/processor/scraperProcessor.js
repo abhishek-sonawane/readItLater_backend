@@ -1,3 +1,4 @@
+import { client } from "../../lib/prisma.js";
 import { puppeteerService } from "../../services/puppeteerService.js";
 
 export const scraperProcessor = async (job, done) => {
@@ -8,7 +9,15 @@ export const scraperProcessor = async (job, done) => {
             return done(new Error(`Failed to scrape ${job.data.url}`));
         }
         console.log(`Scraped content for ${job.data.url}:`, data.title);
-        db.push(data)
+        console.log('data',data)
+        await client.content.create({
+            data:{
+                title:data.title,
+                url:job.data.url,
+                contentData:data.content,
+                userId:'cmdbc08qx0000zw3gfpzw9try'
+            }
+        })
         done();
     } catch (err) {
         console.log(`Error processing job ${job.id}:`, err);

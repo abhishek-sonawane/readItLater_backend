@@ -3,8 +3,11 @@ import { handleGetContent, handleSaveContent } from '../controllers/content.cont
 
 const router = express.Router();
 
-router.post('/saveContent', handleSaveContent);
-router.get('/getContent', handleGetContent)
+// get all content
+router.route('/').get(handleGetContent)
+
+// create content
+router.route('/').post(handleSaveContent)
 
 
 export default router;
