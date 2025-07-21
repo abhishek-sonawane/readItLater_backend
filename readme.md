@@ -1,7 +1,7 @@
 
 # 📚 ReadItLater — Backend
 
-ReadItLater is an alternative to Pocket (which is shutting down), designed to let users save articles or any web content for reading later. This is the **backend service** that powers the web and mobile apps, offering RESTful APIs for managing saved content, tags, and folder hierarchies.
+ReadItLater is an open source alternative to Pocket (which is shutting down), designed to let users save articles or any web content for reading later. This is the **backend service** that powers the web and mobile apps, offering RESTful APIs for managing saved content, tags, and folder hierarchies.
 
 > 💡 This will evolve into a monorepo including the frontend (React), and mobile app (React Native).
 
@@ -21,6 +21,9 @@ ReadItLater is an alternative to Pocket (which is shutting down), designed to le
 - ✅ Jest for testing
 - ⚙️ CI/CD via Jenkins
 - 🏗️ Future plans:
+  - Browser extension
+  - Web app
+  - Mobile app
   - Convert to TypeScript
   - Add recommendation engine
 
@@ -38,6 +41,10 @@ ReadItLater is an alternative to Pocket (which is shutting down), designed to le
 
 
 ## Run Locally
+
+Prerequisites
+- Node v22
+- Docker
 
 Clone the project
 
@@ -57,6 +64,25 @@ Install dependencies
   npm install
 ```
 
+Add .env from .env.example
+
+```bash
+PORT=3000
+REDIS_HOST=127.0.0.1
+REDIS_PORT=6379
+DATABASE_URL=<Your database url>
+ACCESS_TOKEN_SECRET='secret'
+ACCESS_TOKEN_EXPIRY='1d'
+REFRESH_TOKEN_SECRET='secret'
+REFRESH_TOKEN_EXPIRY='10d'
+```
+
+Start Database using docker
+
+```bash
+  docker compose up
+```
+
 Start the server
 
 ```bash
@@ -69,7 +95,7 @@ Start the server
 [MIT](https://choosealicense.com/licenses/mit/)
 
 
-## Authors
+## Author
 
 - [@abhishek-sonwane](https://www.github.com/abhishek-sonwane)
 
