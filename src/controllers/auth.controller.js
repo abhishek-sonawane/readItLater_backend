@@ -54,15 +54,35 @@ const loginController = asyncHandler(async (req, res) => {
     const accessToken = await generateAccessToken({ id: userExist.id, email: userExist.email })
     const refreshToken = await generateRefreshToken({ id: userExist.id })
 
-    res.status(200).json(new ApiResponse(200, "Login Successful", {
-        user: {
-            id: userExist.id,
-            email: userExist.email,
-            name: userExist.name
+    const user = await client.user.update({
+        where: {
+            id: userExist.id
         },
-        accessToken,
-        refreshToken
-    }))
+        data: {
+            refreshToken
+        },
+        select: {
+            id: true,
+            email: true,
+            name: true
+        }
+    })
+
+    const options = {
+        httpOnly: true,
+        secure: true
+    }
+
+
+    res
+        .status(200)
+        .cookie('accessToken', accessToken, options)
+        .cookie('refreshToken', refreshToken, options)
+        .json(new ApiResponse(200, "Login Successful", {
+            user,
+            accessToken,
+            refreshToken
+        }))
 })
 
 const registerController = asyncHandler(async (req, res) => {
@@ -89,12 +109,14 @@ const registerController = asyncHandler(async (req, res) => {
     }
     const hashedPassword = await hashPassword(password)
 
+
+
     // create if it doesnt exist
     const user = await client.user.create({
         data: {
             name: name,
             email: email,
-            hashedPassword: hashedPassword
+            hashedPassword: hashedPassword,
         },
         select: {
             id: true,
@@ -102,17 +124,45 @@ const registerController = asyncHandler(async (req, res) => {
             email: true,
         }
     })
+    // create tokens
     const accessToken = await generateAccessToken({ id: user.id, email: user.email })
     const refreshToken = await generateRefreshToken({ id: user.id })
-    res.status(200).json(new ApiResponse(
-        200,
-        'User registered successfully!',
-        {
-            user,
-            accessToken,
-            refreshToken,
+
+    // update refresh token in DB
+    const updatedUser = await client.user.update({
+        where: {
+            id: user.id
         }
-    ))
+        ,
+        data: {
+            refreshToken
+        },
+        select: {
+            id: true,
+            name: true,
+            email: true,
+        }
+    })
+
+    const options = {
+        httpOnly: true,
+        secure: true
+    }
+
+
+    res
+        .status(200)
+        .cookie('accessToken', accessToken, options)
+        .cookie('refreshToken', refreshToken, options)
+        .json(new ApiResponse(
+            200,
+            'User registered successfully!',
+            {
+                user,
+                accessToken,
+                refreshToken
+            }
+        ))
 })
 
 
