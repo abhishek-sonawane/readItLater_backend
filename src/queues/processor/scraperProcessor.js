@@ -15,7 +15,7 @@ export const scraperProcessor = async (job, done) => {
                 title:data.title,
                 url:job.data.url,
                 contentData:data.content,
-                userId:'cmdbc08qx0000zw3gfpzw9try'
+                userId:job.data.user.id
             }
         })
         done();

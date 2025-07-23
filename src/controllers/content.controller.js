@@ -7,17 +7,28 @@ import { asyncHandler } from '../utils/asyncHandler.js';
 
 const  handleSaveContent = asyncHandler(async(req, res)=> {
     const url = req.body.url;
+    const user = req.user;
     if (!url) {
         throw new ApiError(400,'No data recieved')
     }
-    await scraperQueue.add({ url });
+    await scraperQueue.add({ url,user });
 
     return res.status(200).json(new ApiResponse(200,'Content scraped successfully', { url }));
 })
 
 const  handleGetContent= asyncHandler(async(req, res)=> {
-    // TODO: get content based on userID and implement pagination aswell
-    const contentList = await client.content.findMany()
+    const user = req.user;
+    console.log('user')
+    // get the user
+    // find content for that user
+    const contentList = await client.content.findMany({
+        where:{
+            userId:user.id
+        }
+    })
+    if(!contentList){
+        res.status(204).json(new ApiResponse(204,'No content available'))
+    }
     res.status(200).json(new ApiResponse(200,'Content fetched successfully',contentList))
 })
 
