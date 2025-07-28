@@ -1,5 +1,5 @@
 import express from 'express';
-import { handleGetContent, handleSaveContent } from '../controllers/content.controller.js';
+import { handleAddContentToFolder, handleGetContent, handleSaveContent } from '../controllers/content.controller.js';
 import { verifyJWT } from '../middlewares/auth.middleware.js';
 
 const router = express.Router();
@@ -9,6 +9,11 @@ router
   .route('/')
   .get(verifyJWT, handleGetContent)
   .post(verifyJWT, handleSaveContent);
+
+
+router
+.route('/:contentID/:folderID')
+.post(verifyJWT,handleAddContentToFolder)
 
 
 export default router;

@@ -12,12 +12,26 @@ title: 'ReadItLater API',
 version: '1.0.0',
 description: 'My API Description',
 },
+ components: {
+    securitySchemes: {
+      bearerAuth: {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+      },
+    },
+  },
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
 }
 
 
 const options = {
     swaggerDefinition,
-    apis:[path.join(__dirname,'../routes/*.js')]
+    apis:[path.join(__dirname,'../routes/*.js')],
 }
 
 

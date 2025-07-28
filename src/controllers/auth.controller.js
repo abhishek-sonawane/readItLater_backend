@@ -48,7 +48,7 @@ const loginController = asyncHandler(async (req, res) => {
 
     if (!isPasswordMatch) {
         console.log('isPasswordMatch', isPasswordMatch)
-        throw new ApiError(404, 'Password is invalid')
+        throw new ApiError(401, 'Password is invalid')
     }
     // sign JWT and send 200
     const accessToken = await generateAccessToken({ id: userExist.id, email: userExist.email })
