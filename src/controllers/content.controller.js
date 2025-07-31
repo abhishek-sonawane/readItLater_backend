@@ -100,17 +100,118 @@ const handleAddContentToFolder = asyncHandler(async(req,res)=>{
         'Content added to folder successfully!',
     ))
 })
-// TODO: COMPLETE CONTENTTOFOLDER OPERATIONS
+
 const removeContentFromFolder = asyncHandler(async(req,res)=>{
     // get user
+    const user = req.user
     // check contentID and folderID 
-    // if contentID and folderID exist
+      const {contentID , folderID} = req.params
+    if(!contentID || !folderID){
+        throw new ApiError(400, 'ContentID or folderID is empty')
+    }
+// check if the content and folder exist
+    const doesContentExist = await client.content.findFirst({
+        where:{
+            userId:user.id,
+            id:contentID
+        }
+    })
+
+    if(!doesContentExist){
+        throw new ApiError(404,'Content not found')
+    }
+
+    const doesFolderExist = await client.folder.findFirst({
+        where:{
+            userId:user.id,
+            id:folderID
+        }
+    })
+    if(!doesFolderExist){
+        throw new ApiError(404,'Folder not found')
+    }
     // remove content from folder
+
+    await client.content.update({
+        where:{
+            id:contentID,
+            userId:user.id
+        },
+        data:{
+            folderId:null
+        }
+    })
+
+    res.status(200).json(new ApiResponse(
+        200,
+        'Removed content from Folder',
+    ))
 })
 
 const moveContentToFolder = asyncHandler(async(req,res)=>{
     // get user
+    const user = req.user
+    const {contentID,prevfolderID, newfolderID} = req.params
     // check contentID, newfolderID, prevFolderID
+    if(!contentID || !prevfolderID || !newfolderID){
+        throw new ApiError(400,'ContentID or newfolderID or prevfolderID is empty')
+    }
+    // check if content exists
+    const contentExist = await client.content.findFirst({
+        where:{
+            userId:user.id,
+            id:contentID
+        }
+    })
+    if(!contentExist){
+        throw new ApiError(404,'Content not found')
+    }
+    // check if new folder exists
+    const newFolderExist = await client.folder.findFirst({
+        where:{
+            userId:user.id,
+            id:newfolderID
+        }
+    })
+    if(!newFolderExist){
+        throw new ApiError(404,'New folder not found')
+    }
+    // check if prev folder exists
+
+    const prevFolderExist = await client.folder.findFirst({
+        where:{
+            userId:user.id,
+            id:prevfolderID
+        }
+    })
+    if(!prevFolderExist){
+        throw new ApiError(404,'Previous folder not found')
+    }
+    // check if content is already in the new folder
+    if(contentExist.folderId === newfolderID){
+        throw new ApiError(400,'Content already exists in the new folder')
+    }
+    // check if content is in the previous folder
+    if(contentExist.folderId !== prevfolderID){
+        throw new ApiError(400,'Content is not in the previous folder')
+    }   
+    // update content folderId to new folderId
+    await client.content.update({
+        where:{
+            userId:user.id,
+            id:contentID
+        },
+        data:{
+            folderId:newfolderID
+        }
+    })
+
+    res.status(200).json(new ApiResponse(
+        200,
+        'Content moved to new folder successfully',
+    ))
+    
+
     // if contentexist, newfolderexist, prevfolderexist
     // move content from prev folder to new folder
 })

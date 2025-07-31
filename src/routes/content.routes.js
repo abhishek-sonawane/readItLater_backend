@@ -1,5 +1,5 @@
 import express from 'express';
-import { handleAddContentToFolder, handleGetContent, handleSaveContent } from '../controllers/content.controller.js';
+import { handleAddContentToFolder, handleGetContent, handleRemoveContent, handleSaveContent, moveContentToFolder, removeContentFromFolder } from '../controllers/content.controller.js';
 import { verifyJWT } from '../middlewares/auth.middleware.js';
 
 const router = express.Router();
@@ -14,6 +14,14 @@ router
 router
 .route('/:contentID/:folderID')
 .post(verifyJWT,handleAddContentToFolder)
+
+router
+.route('/remove/:contentID/:folderID')
+.post(verifyJWT,removeContentFromFolder)
+
+router
+.route('/move/:contentID/:prevfolderID/:newfolderID')
+.post(verifyJWT,moveContentToFolder)
 
 
 export default router;
