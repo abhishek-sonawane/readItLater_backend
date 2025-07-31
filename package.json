@@ -1,35 +1,21 @@
 {
-  "name": "readitlater",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "readItLater",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
-  },
-  "prisma": {
-    "schema": "src/prisma/schema.prisma"
-  },
-  "keywords": [],
-  "author": "Abhishek Sonawane",
-  "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "@mozilla/readability": "^0.6.0",
-    "@prisma/client": "^6.11.0",
-    "bcrypt": "^6.0.0",
-    "bull": "^4.16.5",
-    "cookie-parser": "^1.4.7",
-    "dotenv": "^17.0.1",
-    "express": "^5.1.0",
-    "jsdom": "^26.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "puppeteer": "^24.11.1",
-    "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1",
-    "zod": "^4.0.5"
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "check-types": "turbo run check-types"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
-  }
+    "prettier": "^3.6.2",
+    "turbo": "^2.5.5",
+    "typescript": "5.8.3"
+  },
+  "packageManager": "npm@10.8.3",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
 }

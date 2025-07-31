@@ -120,7 +120,7 @@ dist
 # End of https://mrkandreev.name/snippets/gitignore-generator/#Node
 
 # prisma files
-**/generated/prisma
+/generated/prisma
 
 
 #turbo
