@@ -10,10 +10,15 @@ router
   .get(verifyJWT, handleGetContent)
   .post(verifyJWT, handleSaveContent);
 
+router
+.route('/:id')
+.post(verifyJWT,handleRemoveContent)
 
 router
 .route('/:contentID/:folderID')
 .post(verifyJWT,handleAddContentToFolder)
+
+
 
 router
 .route('/remove/:contentID/:folderID')

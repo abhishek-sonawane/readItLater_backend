@@ -47,6 +47,21 @@ const handleRemoveContent  = asyncHandler(async(req,res)=>{
     if(!findContent){
         throw new ApiError(404,'Content not found')
     }
+
+    await client.content.update({
+        where:{
+            id,
+            userId:user.id
+        },
+        data:{
+            isDeleted:true
+        }
+    })
+    res.status(200).json(new ApiResponse(
+        200,
+        'Content Removed successfully'
+    ))
+
     // soft delete content
 })
 
