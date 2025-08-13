@@ -2,50 +2,60 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
+import {schemas} from '@repo/zod/schemas'
 import {useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { schemas } from '@repo/zod/schemas'
+import { getAxios } from '@/services/axios'
+import { API_ENDPOINTS } from '@/config/api'
 
+const RegisterForm = () => {
 
-const LoginForm = () => {
- const {register,handleSubmit,formState:{errors}} = useForm({
-    resolver:zodResolver(schemas.login)
- })
+const {register , handleSubmit, formState:{errors}} = useForm({
+    resolver: zodResolver(schemas.register)
+});
 
- const onSubmit = (data)=>{
-    console.log('data',data)
- }
-    return (
-        <div>
-            {/* card */}
-            <Card className='text-left flex' >
+    const onSubmit = async(data) => {
+      const response =   await getAxios().post(API_ENDPOINTS.REGISTER,data)
+      console.log(response,'response')
+        
+  
+    }
+
+  return (
+      <Card className='text-left flex' >
                 <CardHeader >
-                    <CardTitle className='text-xl'>Sign in to your account</CardTitle>
-                    <CardDescription>Enter your email and password</CardDescription>
+                    <CardTitle className='text-xl'>Create an account</CardTitle>
+                    {/* <CardDescription>Enter your email and password</CardDescription> */}
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-5' >
+                          <div>
+                            <label htmlFor="text">Name</label>
+                            <Input {...register('name')} placeholder='John Doe' type="text" />
+                            <p className='text-red-400' >{errors.name?.message}</p>
+                        </div>
+
                         <div>
                             <label htmlFor="text">Email</label>
                             <Input {...register('email')} placeholder='name@example.com' type="text" />
-                            <p className='text-red-400'>{errors.email?.message}</p>
+                             <p className='text-red-400' >{errors.email?.message}</p>
                         </div>
 
                         <div>
                             <label htmlFor="text">Password</label>
-                            <Input {...register('password')} type="text" />
-                             <p className='text-red-400'>{errors.password?.message}</p>
-                            <div className='flex gap-3 items-center mt-3'>
+                            <Input {...register('password')} type="password" />
+                            <p className='text-red-400' >{errors.password?.message}</p>
+                            {/* <div className='flex gap-3 items-center mt-3'>
                                 <Checkbox id='Remember' />
                                 <label htmlFor="Remember">Remember me</label>
-                            </div>
+                            </div> */}
                         </div>
 
                         {/* checkbox */}
 
 
 
-                        <Button type='submit' className='w-full mt-4' >Sign in</Button>
+                        <Button type='submit' className='w-full mt-4' >Sign up</Button>
 
                                             <div className=" mb-4 after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
                         <span className="bg-card text-muted-foreground relative z-10 px-2">
@@ -65,8 +75,7 @@ const LoginForm = () => {
                     </form>
                 </CardContent>
             </Card>
-        </div>
-    )
+  )
 }
 
-export default LoginForm
+export default RegisterForm
