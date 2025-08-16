@@ -1,0 +1,14 @@
+{
+  "name": "@repo/zod",
+  "version": "1.0.0",
+  "private": true,
+  "exports":{
+    "./schemas": "./schemas.ts"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "zod": "^4.0.5"
+  }
+}

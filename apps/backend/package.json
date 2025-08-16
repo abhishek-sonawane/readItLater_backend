@@ -6,8 +6,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-     "lint": "eslint . --ext .js,.jsx",
-     "lint:fix": "eslint . --fix"
+    "lint": "eslint . --ext .js,.jsx",
+    "lint:fix": "eslint . --fix"
   },
   "prisma": {
     "schema": "src/prisma/schema.prisma"
@@ -22,6 +22,7 @@
     "bcrypt": "^6.0.0",
     "bull": "^4.16.5",
     "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
     "dotenv": "^17.0.1",
     "express": "^5.1.0",
     "jsdom": "^26.1.0",
@@ -32,7 +33,7 @@
     "zod": "^4.0.5"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10",
-    "@repo/eslint-config":"*"
+    "@repo/eslint-config": "*",
+    "nodemon": "^3.1.10"
   }
 }
