@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input'
 import {useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { schemas } from '@repo/zod/schemas'
+import { useNavigate } from 'react-router'
 
 
 const LoginForm = () => {
@@ -12,8 +13,13 @@ const LoginForm = () => {
     resolver:zodResolver(schemas.login)
  })
 
+const navigate = useNavigate()
+
  const onSubmit = (data)=>{
     console.log('data',data)
+    localStorage.setItem('login',JSON.stringify(true))
+    navigate('/dashboard')
+    
  }
     return (
         <div>
@@ -33,7 +39,7 @@ const LoginForm = () => {
 
                         <div>
                             <label htmlFor="text">Password</label>
-                            <Input {...register('password')} type="text" />
+                            <Input {...register('password')} type="password" />
                              <p className='text-red-400'>{errors.password?.message}</p>
                             <div className='flex gap-3 items-center mt-3'>
                                 <Checkbox id='Remember' />
